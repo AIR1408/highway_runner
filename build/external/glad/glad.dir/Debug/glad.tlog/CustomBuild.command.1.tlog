@@ -1,0 +1,10 @@
+^C:\USERS\ADYAT\REPOS\RUNNER\EXTERNAL\GLAD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/adyat/repos/Runner -BC:/Users/adyat/repos/Runner/build --check-stamp-file C:/Users/adyat/repos/Runner/build/external/glad/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
