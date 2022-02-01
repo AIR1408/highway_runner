@@ -5,7 +5,6 @@ Mesh::Mesh(ext::Vertex* vertices, unsigned int size) : VAO(0), VBO(0), IBO(0)
 {
     numberOfVertices = size;
 
-    int m = 1;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -15,11 +14,11 @@ Mesh::Mesh(ext::Vertex* vertices, unsigned int size) : VAO(0), VBO(0), IBO(0)
     glBufferData(GL_ARRAY_BUFFER, numberOfVertices * sizeof(ext::Vertex), vertices, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ext::Vertex), (void*)0);
-    glVertexAttribPointer(m, 3, GL_FLOAT, GL_FALSE, sizeof(ext::Vertex), (void*)offsetof(ext::Vertex, normal));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ext::Vertex), (void*)offsetof(ext::Vertex, normal));
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(ext::Vertex), (void*)offsetof(ext::Vertex, texCoord));
 
     glEnableVertexArrayAttrib(VAO, 0);
-    glEnableVertexArrayAttrib(VAO, m);
+    glEnableVertexArrayAttrib(VAO, 1);
     glEnableVertexArrayAttrib(VAO, 2);
 
     glBindVertexArray(0);    

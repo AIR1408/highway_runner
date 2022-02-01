@@ -26,7 +26,6 @@ public:
 
     void setCollisionBox(CollisionBox box);
     bool checkCollision(std::shared_ptr<Transform> other);
-    bool checkCollision(glm::vec3 position, CollisionBox box);
     glm::vec3 getMovement();
 
     

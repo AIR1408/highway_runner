@@ -10,12 +10,10 @@ public:
     CollisionBox();
     CollisionBox(glm::vec3 point1, glm::vec3 point2);
 
-    //bool checkCollision(CollisionBox other, glm::vec3 this_position, glm::vec3 other_position);
-    glm::vec3 checkCollision(CollisionBox b, glm::vec3 a_position, glm::vec3 b_position);
+    bool checkCollision(CollisionBox other, glm::vec3 this_position, glm::vec3 other_position);
+    // glm::vec3 checkCollision(CollisionBox b, glm::vec3 a_position, glm::vec3 b_position);
    
-private:
-    bool checkIntersection(float a, float b, float c, float d);
-    
+private:    
     bool isDefined;
     glm::vec3 max_point, min_point;    
 };

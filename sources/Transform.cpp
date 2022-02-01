@@ -44,26 +44,7 @@ void Transform::setCollisionBox(CollisionBox box)
 
 bool Transform::checkCollision(std::shared_ptr<Transform> other)
 {
-    glm::vec3 difference = other->getPosition() - getPosition();
-    glm::vec3 sign = {glm::sign(difference.x), glm::sign(difference.y), glm::sign(difference.z)};
-    glm::vec3 collision = collisionBox.checkCollision(other->collisionBox, getPosition(), other->getPosition());
-    float m = glm::min(glm::min(collision.x, collision.y), collision.z);
-    glm::vec3 mcollision = {collision.x == m ? m : 0.0, collision.y == m ? m : 0.0, collision.z == m ? m : 0.0};
-    bool isCollided = collision.x >= 0 && collision.y >= 0 && collision.z >= 0;
-    if (isCollided)
-    {
-        other->translate(sign * mcollision);
-    }
-    return isCollided;
-}
-
-bool Transform::checkCollision(glm::vec3 position, CollisionBox box)
-{
-    bool isCollided = false;//collisionBox.checkCollision(box, getPosition(), position);
-    if (isCollided)
-    {
-    }
-    return isCollided;
+    return collisionBox.checkCollision(other->collisionBox, getPosition(), other->getPosition());
 }
 
 glm::vec3 Transform::getMovement()
