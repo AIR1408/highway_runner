@@ -3,7 +3,7 @@
 
 #define MATERIAL_UNIFORMS_NUMBER 4
 
-#include <pch.h>
+#include <memory>
 #include <string>
 
 #include <glm/vec3.hpp>

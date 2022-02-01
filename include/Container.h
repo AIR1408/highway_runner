@@ -1,7 +1,7 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
 
-#include <pch.h>
+#include <memory>
 #include <vector>
 
 #include <Components/Component.h>

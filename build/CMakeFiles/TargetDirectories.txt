@@ -1,7 +1,0 @@
-C:/Users/adyat/repos/Runner/build/CMakeFiles/Runner.dir
-C:/Users/adyat/repos/Runner/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/adyat/repos/Runner/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/adyat/repos/Runner/build/external/glfw/CMakeFiles/ALL_BUILD.dir
-C:/Users/adyat/repos/Runner/build/external/glfw/src/CMakeFiles/glfw.dir
-C:/Users/adyat/repos/Runner/build/external/glad/CMakeFiles/glad.dir
-C:/Users/adyat/repos/Runner/build/external/glad/CMakeFiles/ALL_BUILD.dir

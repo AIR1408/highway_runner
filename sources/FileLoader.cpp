@@ -16,7 +16,7 @@ FileLoader::FileLoader(std::string resourcePath)
 
 std::string FileLoader::loadShader(std::string fileName)
 {
-    std::ifstream fin(resourcePath + "\\shaders\\" + fileName);
+    std::ifstream fin(resourcePath + "/shaders/" + fileName);
     if (!fin.is_open())
         throw "ERROR::FILE_LOADER Can't open file " + fileName;
     std::ostringstream buf;
@@ -27,7 +27,7 @@ std::string FileLoader::loadShader(std::string fileName)
 
 std::shared_ptr<Texture2D> FileLoader::loadTexture2D(std::string fileName, int unit)
 {
-    std::string path = resourcePath + "\\textures\\" + fileName;
+    std::string path = resourcePath + "/textures/" + fileName;
     int width = 0, height = 0, channels = 0;
     stbi_set_flip_vertically_on_load(true);
     unsigned char* pixels = stbi_load(path.c_str(), &width, &height, &channels, 0);
@@ -44,8 +44,8 @@ std::shared_ptr<Texture2D> FileLoader::loadTexture2D(std::string fileName, int u
 
 std::shared_ptr<ShaderProgram> FileLoader::loadShaderProgram()
 {
-    std::string vertex_shader   = loadShader("\\vertex.txt");
-    std::string fragment_shader = loadShader("\\fragment.txt");
+    std::string vertex_shader   = loadShader("/vertex.txt");
+    std::string fragment_shader = loadShader("/fragment.txt");
 
     auto ID = std::make_shared<ShaderProgram>(vertex_shader, fragment_shader);
     return ID;
@@ -54,7 +54,7 @@ std::shared_ptr<ShaderProgram> FileLoader::loadShaderProgram()
 Container
 FileLoader::loadObjFile(std::string fileName, std::vector<std::shared_ptr<Material>>& materials)
 {
-    WavefrontReader wavefrontReader(resourcePath + "\\models\\" + fileName);
+    WavefrontReader wavefrontReader(resourcePath + "/models/" + fileName);
     std::string type, buffer, name;
     bool isFirst = true;
 
@@ -145,7 +145,7 @@ Container FileLoader::loadObjFile(std::string fileName)
 std::vector<std::shared_ptr<Material>> 
 FileLoader::loadMtlFile(std::string fileName, std::shared_ptr<ShaderProgram> shader)
 {
-    WavefrontReader wavefrontReader(resourcePath + "\\models\\" + fileName);
+    WavefrontReader wavefrontReader(resourcePath + "/models/" + fileName);
     std::string type;
 
     std::vector<std::shared_ptr<Material>> materials;

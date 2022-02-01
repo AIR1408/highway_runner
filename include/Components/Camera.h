@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <pch.h>
+#include <memory>
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>

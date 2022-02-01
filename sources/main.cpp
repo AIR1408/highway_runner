@@ -1,5 +1,6 @@
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <ShaderProgram.h>
 #include <FileLoader.h>
 #include <Container.h>
@@ -58,12 +59,12 @@ int main()
 			throw "ERROR::GLFW::INITIALIZATION FAILED";
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		// Создание окна
 		GLFWwindow *pWindow;
-		pWindow = glfwCreateWindow(winSizeX, winSizeY, "MyEngine", NULL, NULL);
+		pWindow = glfwCreateWindow(winSizeX, winSizeY, "runner", NULL, NULL);
 		if (!pWindow)
 			throw "ERROR::GLFW::WINDOW CREATION";
 
@@ -78,17 +79,17 @@ int main()
 			throw "ERROR::GLAD::INITIALIZATION FAILED";
 
 		// Создание класса для загрузки файлов: текстур, моделей, шейдеров, материалов
-		FileLoader files("..\\resources\\");
+		FileLoader files("./resources/");
 
 		{
 			// Создание основного шейдера
 			auto shader = files.loadShaderProgram();
 
 			// Загрузка текстур, моделей, материалов
-			auto main_platform = files.loadObjFile("\\cube.obj");
-			auto cars_mtl	   = files.loadMtlFile("\\Car.mtl", shader);
-			auto car 		   = files.loadObjFile("\\Car.obj", cars_mtl);
-			auto numbers_meshes= files.loadObjFile("\\numbers.obj");
+			auto main_platform = files.loadObjFile("/cube.obj");
+			auto cars_mtl	   = files.loadMtlFile("/Car.mtl", shader);
+			auto car 		   = files.loadObjFile("/Car.obj", cars_mtl);
+			auto numbers_meshes= files.loadObjFile("/numbers.obj");
 
 			auto numbers_texture = files.loadTexture2D("digital_numbers.jpg", 0);
 			auto platform_texture = files.loadTexture2D("asphalt.jpg", 0);
@@ -237,15 +238,20 @@ int main()
 
 		glfwTerminate();
 	}
-	catch (std::string message)
+	catch (const char* message)
 	{
 		std::cerr << message << std::endl;
-		system("pause");
+		// system("pause");
+	}
+	catch (string message)
+	{
+		std::cerr << message << std::endl;
+		// system("pause");
 	}
 	catch (...)
 	{
 		std::cerr << "ERROR unexpected problem" << std::endl;
-		system("pause");
+		// system("pause");
 	}
 	return 0;
 }

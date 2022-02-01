@@ -1,4 +1,0 @@
-﻿  main.cpp
-C:\Users\adyat\repos\Runner\sources\main.cpp(54,2): warning C4530: Использован обработчик исключений C++, но семантика уничтожения объектов не включена. Задайте параметр /EHsc
-C:\Users\adyat\repos\Runner\sources\main.cpp(168,5): error C2065: identity: необъявленный идентификатор
-C:\Users\adyat\repos\Runner\sources\main.cpp(186,5): error C2065: identity: необъявленный идентификатор

@@ -1,2 +1,0 @@
-C:\Users\adyat\repos\Runner\build\external\glad\Debug\glad.pdb
-C:\Users\adyat\repos\Runner\build\external\glad\glad.dir\Debug\glad.pdb

@@ -4,7 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_STATIC
 
-#include <pch.h>
+#include <memory>
 #include <string>
 #include <vector>
 

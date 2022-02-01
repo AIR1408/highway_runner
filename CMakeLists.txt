@@ -17,8 +17,6 @@ set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/glfw)
 add_subdirectory(external/glad)
 
-target_precompile_headers(${PROJECT_NAME} PUBLIC include/pch.h)
-
 include_directories(external/glm)
 
 include_directories("${PROJECT_SOURCE_DIR}/include/")
