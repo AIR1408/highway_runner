@@ -31,7 +31,6 @@ const glm::vec3 roadOriginPosition[3] = {
 	{platformWidth / 2, 0.0, platformLength / 2 + 60},
 	{platformWidth / 2, 0.0, platformLength / 2 + platformLength + 60}
 	};
-const float xCoordsOfLines[4] = {2.5, 7.5, 12.5, 17.5};
 const float 
 	space_between_lane = 5.f,
 	height_of_platform = 1.f,
@@ -43,14 +42,7 @@ const int nPlatforms = 3,
 	nVsLanes = 2, nCarsPerVsLane = 4;
 
 float carSpeed = 0, deltaV = 0;
-
-enum GameState{
-	PLAYING,
-	PRELOCK,
-	BLOCKED
-};
-
-GameState gameState = PLAYING;
+bool game_over = false;
 
 void window_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -73,8 +65,8 @@ int main()
 		if (!glfwInit())
 			throw "ERROR::GLFW::INITIALIZATION FAILED";
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		// Создание окна
@@ -96,6 +88,7 @@ int main()
 		// Создание класса для загрузки файлов: текстур, моделей, шейдеров, материалов
 		FileLoader files("./resources/");
 
+		{
 		// Создание основного шейдера
 		auto shader = files.loadShaderProgram();
 
@@ -154,11 +147,11 @@ int main()
 			platform_matrix[i]->translate(roadOriginPosition[i]);
 			platform_matrix[i]->scale({platformWidth / 2, 1.0, platformLength / 2});
 		}
-
+		
 		// Иницилизация матрицы проекции
 		glm::mat4 projection = glm::perspective(glm::radians(45.f), float(winSizeX) / winSizeY, 0.1f, 130.f);
 
-		// Настройка шейдераPLAYING
+		// Настройка шейдера
 		shader->Use();
 		shader->setInt("Texture0", 0);
 		shader->setMatrix("projection", projection);
@@ -174,19 +167,19 @@ int main()
 		glClearColor(0.0, 191.0 / 255, 1.0, 0.1);
 		glEnable(GL_DEPTH_TEST);
 
-
+		// Вспомогательный игровой цикл
 		std::thread thr([&camera_car, &pWindow](){
 			while (!glfwWindowShouldClose(pWindow))
-				if (gameState == PRELOCK){
+				if (game_over){
 					camera_car.switchKeyboardBlock();
-					gameState = BLOCKED;
+					break;
 				}
 		});
 		
 		// Главный игровой цикл
 		while (!glfwWindowShouldClose(pWindow))
 		{
-			// Очищение отрисовки и буфера глубины
+			// Очищение буфера цвета и глубины
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			point_light->use();
 
@@ -196,16 +189,16 @@ int main()
 
 			for (int i = 0; i < nCoLanes; i++){
 				for (int j = 0; j < nCarsPerCoLane; j++){
-					if (gameState == PLAYING) {
+					if (!game_over) {
 						cars_matrix_co_direction[i][j]->translate({0.0, 0.0, 
 							-deltaTime * cars_speed_in_lane[i] - carSpeed});
 						glm::vec3 pos = cars_matrix_co_direction[i][j]->getPosition();
 						if (pos.z < -10.0) 
 							cars_matrix_co_direction[i][j]->translate({
-								xCoordsOfLines[i] - pos.x + (rand() % 11 - 5) / 5.0, 0.0, 
+								space_between_lane * i + 2.5 - 
+								pos.x + (rand() % 11 - 5) / 5.0, 0.0, 
 								nCarsPerCoLane * space_between_cars[i]});
-						if (cars_matrix_co_direction[i][j]->checkCollision(camera_car.getTransform()))
-							gameState = PRELOCK;
+						game_over = cars_matrix_co_direction[i][j]->checkCollision(camera_car.getTransform());
 					}
 					cars_matrix_co_direction[i][j]->use();
 					car.render();
@@ -213,16 +206,16 @@ int main()
 			}
 			for (int i = 0; i < nVsLanes; i++){
 				for (int j = 0; j < nCarsPerVsLane; j++){
-					if (gameState == PLAYING) {
+					if (!game_over) {
 						cars_matrix_vs_direction[i][j]->translate({0.0, 0.0, 
 							-deltaTime * cars_speed_in_lane[i + nCoLanes] - carSpeed});
 						glm::vec3 pos = cars_matrix_vs_direction[i][j]->getPosition();
 						if (pos.z < -10.0) 
 							cars_matrix_vs_direction[i][j]->translate({
-								xCoordsOfLines[i + nCoLanes] - pos.x + (rand() % 11 - 5) / 5.0, 0.0, 
+								space_between_lane * (i + nCoLanes) + 2.5 - 
+								pos.x + (rand() % 11 - 5) / 5.0, 0.0, 
 								nCarsPerVsLane * space_between_cars[i + nCoLanes]});
-						if (cars_matrix_vs_direction[i][j]->checkCollision(camera_car.getTransform()))
-							gameState = PRELOCK;
+						game_over = cars_matrix_vs_direction[i][j]->checkCollision(camera_car.getTransform());
 					}
 					cars_matrix_vs_direction[i][j]->use();
 					car.render();
@@ -230,7 +223,7 @@ int main()
 			}
 		
 			for (int i = 0; i < nPlatforms; i++){
-				if (gameState == PLAYING) {
+				if (!game_over) {
 					deltaV = platformSpeed * deltaTime + carSpeed;
 					platform_matrix[i]->translate({0.0, 0.0, -deltaV});
 					if (platform_matrix[i]->getPosition().z < -platformLength / 2)
@@ -239,12 +232,10 @@ int main()
 				platform_matrix[i]->use();
 				main_platform.render();
 			}
-			if (gameState == PLAYING)
-			{
+			if (!game_over) {
 				scoreCounter.setScore(glfwGetTime());
-				if (walls[0]->checkCollision(camera_car.getTransform()) ||
-					walls[1]->checkCollision(camera_car.getTransform()))
-					gameState = PRELOCK;
+				game_over = walls[0]->checkCollision(camera_car.getTransform()) ||
+							walls[1]->checkCollision(camera_car.getTransform());
 			}
 
 			// Сброс текстур
@@ -263,7 +254,9 @@ int main()
 
 			carSpeed += deltaTime/1000;
 		}
+		thr.join();
 
+		}
 		glfwTerminate();
 	}
 	catch (const char* message)
