@@ -15,7 +15,7 @@ class ShaderProgram;
 class Camera : public Component
 {
 public:
-	Camera(GLFWwindow*& window, std::shared_ptr<ShaderProgram> shader, glm::vec3 position, glm::vec3 lookDirection);    
+	Camera(GLFWwindow* window, std::shared_ptr<ShaderProgram> shader, glm::vec3 position, glm::vec3 lookDirection);    
 
 	void switchMouseBlock();
 	void switchKeyboardBlock();
@@ -44,7 +44,7 @@ protected:
     int _matrixUniformLocation, _positionUniformLocation;
     glm::mat4 View;
 
-    GLFWwindow*& _window;
+    GLFWwindow* p_window;
 };
 
 #endif // !CAMERA_H

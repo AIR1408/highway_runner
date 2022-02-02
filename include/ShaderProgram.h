@@ -11,6 +11,7 @@ class ShaderProgram
 public:
 	ShaderProgram(std::string& vertex_shader_source, std::string& fragment_shader_source);
 	ShaderProgram(const ShaderProgram&) = delete;
+	ShaderProgram& operator=(ShaderProgram&) = delete;
 	ShaderProgram& operator=(const ShaderProgram&) = delete;
 	~ShaderProgram();
 

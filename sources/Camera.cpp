@@ -3,10 +3,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <ShaderProgram.h>
 
-Camera::Camera(GLFWwindow*& window, std::shared_ptr<ShaderProgram> shader, glm::vec3 position, glm::vec3 lookAt) : 
+Camera::Camera(GLFWwindow* window, std::shared_ptr<ShaderProgram> shader, glm::vec3 position, glm::vec3 lookAt) : 
                                                         speed(0), mouseSensitivity(0.005),
                                                         currentTime(0), lastTime(0),
-                                                        yaw(0), pitch(0), _window(window),
+                                                        yaw(0), pitch(0), p_window(window),
                                                         isFirstIteration(true)
 {
 	this->position = position;
@@ -74,20 +74,20 @@ void Camera::use()
 
 void Camera::CameraKeyboard(float deltaTime)
 {
-    if (glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS && !isKeyBlocked[0])
+    if (glfwGetKey(p_window, GLFW_KEY_W) == GLFW_PRESS && !isKeyBlocked[0])
         position += speed * front * deltaTime;
-    if (glfwGetKey(_window, GLFW_KEY_S) == GLFW_PRESS && !isKeyBlocked[1])
+    if (glfwGetKey(p_window, GLFW_KEY_S) == GLFW_PRESS && !isKeyBlocked[1])
         position -= speed * front * deltaTime;
-    if (glfwGetKey(_window, GLFW_KEY_A) == GLFW_PRESS && !isKeyBlocked[2])
+    if (glfwGetKey(p_window, GLFW_KEY_A) == GLFW_PRESS && !isKeyBlocked[2])
         position -= glm::normalize(glm::cross(front, up)) * speed * deltaTime;
-    if (glfwGetKey(_window, GLFW_KEY_D) == GLFW_PRESS && !isKeyBlocked[3])
+    if (glfwGetKey(p_window, GLFW_KEY_D) == GLFW_PRESS && !isKeyBlocked[3])
         position += glm::normalize(glm::cross(front, up)) * speed * deltaTime;
 }
 
 void Camera::CameraMouse()
 {
     lastCursorPosition = currentCursorPosition;
-    glfwGetCursorPos(_window,
+    glfwGetCursorPos(p_window,
                     &currentCursorPosition.x, 
                     &currentCursorPosition.y);
 
