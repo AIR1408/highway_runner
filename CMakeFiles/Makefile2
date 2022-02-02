@@ -63,8 +63,8 @@ CMAKE_BINARY_DIR = /home/pc/repos/Runner
 # Target rules for target CMakeFiles/Runner.dir
 
 # All Build rule for target.
-CMakeFiles/Runner.dir/all: external/glfw/src/CMakeFiles/glfw.dir/all
 CMakeFiles/Runner.dir/all: external/glad/CMakeFiles/glad.dir/all
+CMakeFiles/Runner.dir/all: external/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) -f CMakeFiles/Runner.dir/build.make CMakeFiles/Runner.dir/depend
 	$(MAKE) -f CMakeFiles/Runner.dir/build.make CMakeFiles/Runner.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pc/repos/Runner/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target Runner"

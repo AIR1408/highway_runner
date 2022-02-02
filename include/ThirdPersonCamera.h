@@ -9,7 +9,7 @@
 class ThirdPersonCamera : public Camera
 {
 public:
-    ThirdPersonCamera(GLFWwindow*& window, std::shared_ptr<ShaderProgram> shader,
+    ThirdPersonCamera(GLFWwindow* window, std::shared_ptr<ShaderProgram> shader,
                 glm::vec3 position, Container car);
 
     void setCollisionBox(CollisionBox box);
